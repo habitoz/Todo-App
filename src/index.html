@@ -4,11 +4,27 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./style.css">
     <title>Todo App</title>
     <script src="./main.js"></script>
 </head>
 <body>
-    
+    <section class="todo-container" >
+        <div class="todo-header list-item">
+            <h1>Todos</h1>
+            <i class="fa fa-refresh icon"></i>
+        </div>
+        <div class="input-wrapper">
+            <input class="todo-input" type="text" enterkeyhint="enter" placeholder="add to your list ...">
+            <i class="fa fa-arrow-turn-down enter-key-icon"></i>
+        </div>
+        <ul class="todo-list" id="todo-list">
+            
+        </ul>
+        <div class="clear-content">
+           <a href="" role="button">Clear all completed</a>
+        </div>
+    </section>
 </body>
 </html>
