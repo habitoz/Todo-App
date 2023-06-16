@@ -10,7 +10,7 @@ class Todo {
 
   addTodo(todo) {
     this.todos.push(todo);
-    this.todos = this.todos.map((item, index) => ({ ...item, index }));
+    this.todos = this.todos.map((item, index) => ({ ...item, index: index + 1 }));
     this.saveToLocalStorage();
     repaintDOM(this.todos, this.editTodo, this.removeTodo);
   }
@@ -26,7 +26,7 @@ class Todo {
 
   removeTodo(todo) {
     this.todos = this.todos.filter((item) => item.index !== todo.index);
-    this.todos = this.todos.map((item, index) => ({ ...item, index }));
+    this.todos = this.todos.map((item, index) => ({ ...item, index: index + 1 }));
     this.saveToLocalStorage();
     repaintDOM(this.todos, this.editTodo, this.removeTodo);
   }
