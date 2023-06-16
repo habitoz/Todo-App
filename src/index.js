@@ -1,10 +1,19 @@
 import './style.css';
-import todos from './scripts/staticData.js';
-import createDomList from './scripts/utils.js';
+import Todo from './scripts/todoClass.js';
 
-const listContainer = document.getElementById('todo-list');
+const todoInput = document.getElementById('todo-input');
 
-todos.forEach((todo) => {
-  const todoListElement = createDomList(todo);
-  listContainer.appendChild(todoListElement);
+const todoList = new Todo();
+
+todoInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+
+    todoList.addTodo({
+      completed: false,
+      index: todoList.todos.length + 1,
+      description: todoInput.value,
+    });
+    todoInput.value = '';
+  }
 });
