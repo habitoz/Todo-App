@@ -114,3 +114,7 @@ body {
 .descriptionInput:focus {
   outline: none;
 }
+
+.completed-todo {
+  text-decoration: line-through;
+}

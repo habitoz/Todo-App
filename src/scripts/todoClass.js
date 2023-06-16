@@ -4,6 +4,7 @@ class Todo {
   constructor() {
     this.editTodo = this.editTodo.bind(this);
     this.removeTodo = this.removeTodo.bind(this);
+    this.clearAllCompleted = this.clearAllCompleted.bind(this);
     this.todos = getFromLocalStorage();
     repaintDOM(this.todos, this.editTodo, this.removeTodo);
   }
@@ -17,7 +18,7 @@ class Todo {
 
   editTodo(todo) {
     this.todos = this.todos.map((item) => {
-      if (item.index === todo.index) item.description = todo.description;
+      if (item.index === todo.index) return todo;
       return item;
     });
     this.saveToLocalStorage();
@@ -29,6 +30,13 @@ class Todo {
     this.todos = this.todos.map((item, index) => ({ ...item, index: index + 1 }));
     this.saveToLocalStorage();
     repaintDOM(this.todos, this.editTodo, this.removeTodo);
+  }
+
+  clearAllCompleted() {
+    this.todos = this.todos.filter((todo) => !todo.completed);
+    this.todos = this.todos.map((item, index) => ({ ...item, index: index + 1 }));
+    repaintDOM(this.todos, this.editTodo, this.removeTodo);
+    this.saveToLocalStorage();
   }
 
   saveToLocalStorage() {
