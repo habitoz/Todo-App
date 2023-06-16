@@ -3,6 +3,7 @@ const domContainer = document.getElementById('todo-list');
 const createDomList = (todo, editCb, removeCb) => {
   const listElement = document.createElement('li');
   listElement.setAttribute('tabindex', todo.index);
+  listElement.setAttribute('draggable', true);
   listElement.classList.add('list-item');
   const todoDescriptionContainer = document.createElement('div');
   const checkboxElement = document.createElement('input');
@@ -12,8 +13,9 @@ const createDomList = (todo, editCb, removeCb) => {
   todoDescriptionInput.classList.add('hide', 'descriptionInput');
   todoDescriptionContainer.classList.add('todo-description');
   checkboxElement.setAttribute('type', 'checkbox');
-  checkboxElement.setAttribute('value', todo.completed);
+  checkboxElement.checked = todo.completed;
   todoDescription.innerHTML = todo.description;
+  if (todo.completed) todoDescription.classList.add('completed-todo');
 
   todoDescriptionContainer.appendChild(checkboxElement);
   todoDescriptionContainer.appendChild(todoDescription);
@@ -38,11 +40,13 @@ const createDomList = (todo, editCb, removeCb) => {
     listElement.focus();
     todoDescriptionInput.focus();
   });
-
+  checkboxElement.addEventListener('change', (e) => editCb({ ...todo, completed: e.target.checked }));
   listElement.appendChild(todoDescriptionContainer);
   listElement.appendChild(deleteElement);
   listElement.appendChild(moreElement);
 
+  listElement.addEventListener('dragstart', () => listElement.classList.add('dragging'));
+  listElement.addEventListener('dragover', () => listElement.classList.add('dragging'));
   todoDescriptionInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -54,11 +58,23 @@ const createDomList = (todo, editCb, removeCb) => {
   return listElement;
 };
 
+const observeList = (e, siblings) => {
+  e.preventDefault();
+  const draggingItem = document.querySelector('.dragging');
+  const nextSibling = siblings.find((sibling) => e.clientY <= sibling.offsetTop);
+  domContainer.insertBefore(draggingItem, nextSibling);
+};
+
 const repaintDOM = (todos, editCb, removeCb) => {
   domContainer.innerHTML = '';
+  const childNodes = [];
   todos.forEach((todo) => {
-    domContainer.appendChild(createDomList(todo, editCb, removeCb));
+    const listElement = createDomList(todo, editCb, removeCb);
+    domContainer.appendChild(listElement);
+    childNodes.push(listElement);
   });
+  domContainer.addEventListener('dragover', (e) => observeList(e, childNodes));
+  domContainer.addEventListener('dragenter', (e) => e.preventDefault());
 };
 const getFromLocalStorage = () => {
   const todo = localStorage.getItem('todos');

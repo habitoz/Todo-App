@@ -2,6 +2,7 @@ import './style.css';
 import Todo from './scripts/todoClass.js';
 
 const todoInput = document.getElementById('todo-input');
+const clearAllBtn = document.getElementById('clearAll');
 
 const todoList = new Todo();
 
@@ -16,4 +17,9 @@ todoInput.addEventListener('keypress', (e) => {
     });
     todoInput.value = '';
   }
+});
+
+clearAllBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  todoList.clearAllCompleted();
 });
