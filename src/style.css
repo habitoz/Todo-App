@@ -89,6 +89,7 @@ body {
   display: flex;
   gap: 20px;
   align-items: center;
+  flex: 1;
 }
 
 .clear-content {
@@ -99,4 +100,17 @@ body {
 
 .clear-content a {
   color: #000;
+}
+
+.highlight-todo {
+  background-color: var(--highlightColor);
+}
+
+.descriptionInput {
+  border: none;
+  background: transparent;
+}
+
+.descriptionInput:focus {
+  outline: none;
 }
